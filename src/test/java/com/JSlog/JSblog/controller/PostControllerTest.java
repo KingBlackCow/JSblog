@@ -16,7 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class PostControllerTest {
 
     @Autowired
-    private MockMvc mockMvc;
+    private MockMvc mockMvc;//mockMvc 주입은 @WebMvcTest 어노테이션을 통해 주입한다.
 
     @Test
     @DisplayName("/posts 요청 시 Hello World를 출력한다.")
