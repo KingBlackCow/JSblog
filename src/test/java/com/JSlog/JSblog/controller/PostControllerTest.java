@@ -37,8 +37,10 @@ class PostControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"title\":\"\", \"content\": \"내용입니다.\"}")
                 ) //application/json or x-www-form-urlencodeed
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.title").value("타이틀을 입력해주세요."))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value("400"))
+                .andExpect(jsonPath("$.message").value("잘못된 요청입니다."))
+                .andExpect(jsonPath("$.validation.title").value("타이틀을 입력해주세요."))
                 .andDo(print());
     }
 }
