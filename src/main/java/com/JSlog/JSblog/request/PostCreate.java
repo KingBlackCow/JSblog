@@ -7,7 +7,7 @@ import lombok.ToString;
 @Setter
 public class PostCreate {
 
-    public String title;
-    public String content;
+    private String title;
+    private String content;
 
 }
