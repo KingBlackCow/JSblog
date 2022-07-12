@@ -1,6 +1,8 @@
 package com.JSlog.JSblog.controller;
 
 import com.JSlog.JSblog.request.PostCreate;
+import com.JSlog.JSblog.service.PostService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -14,6 +16,7 @@ import java.util.Map;
 
 @Slf4j
 @RestController
+@RequiredArgsConstructor
 public class PostController {
     // SSR -> jsp, thymeleaf, mustache, freemarker
     // SPA ->
@@ -24,9 +27,11 @@ public class PostController {
     //HTTP Method
     //GET, POST, PATCH, DELETE, OPTIONS, HEAD, TRACE, CONNECT
 
-    @PostMapping("/posts")
-    public Map<String, String> post(@RequestBody @Valid PostCreate params) {
+    private final PostService postService;
 
+    @PostMapping("/posts")
+    public Map<String, String> post(@RequestBody @Valid PostCreate request) {
+        postService.write(request);
         return Map.of();
     }
 }
