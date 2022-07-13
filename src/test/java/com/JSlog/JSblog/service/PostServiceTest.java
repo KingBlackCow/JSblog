@@ -3,6 +3,7 @@ package com.JSlog.JSblog.service;
 import com.JSlog.JSblog.domain.Post;
 import com.JSlog.JSblog.repository.PostRepository;
 import com.JSlog.JSblog.request.PostCreate;
+import com.JSlog.JSblog.response.PostResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -53,7 +54,7 @@ class PostServiceTest {
         postRepository.save(requestPost);
 
         Long postId = 1L;
-        Post post = postService.get(requestPost.getId());
+        PostResponse post = postService.get(requestPost.getId());
         assertNotNull(post);
         assertEquals(1L, postRepository.count());
         assertEquals("foo", post.getTitle());
