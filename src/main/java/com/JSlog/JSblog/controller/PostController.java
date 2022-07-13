@@ -1,5 +1,6 @@
 package com.JSlog.JSblog.controller;
 
+import com.JSlog.JSblog.domain.Post;
 import com.JSlog.JSblog.request.PostCreate;
 import com.JSlog.JSblog.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -30,8 +31,7 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping("/posts")
-    public Map<String, String> post(@RequestBody @Valid PostCreate request) {
+    public void post(@RequestBody @Valid PostCreate request) {
         postService.write(request);
-        return Map.of();
     }
 }
