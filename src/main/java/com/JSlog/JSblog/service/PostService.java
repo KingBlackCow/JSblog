@@ -3,6 +3,7 @@ package com.JSlog.JSblog.service;
 import com.JSlog.JSblog.domain.Post;
 import com.JSlog.JSblog.repository.PostRepository;
 import com.JSlog.JSblog.request.PostCreate;
+import com.JSlog.JSblog.request.PostSearch;
 import com.JSlog.JSblog.response.PostResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,9 +41,12 @@ public class PostService {
         return response;
     }
 
-    public List<PostResponse> getList(Pageable pageable) {
+    public List<PostResponse> getList(PostSearch postSearch) {
 //        Pageable pageable = PageRequest.of(page, 5, Sort.by(Sort.Direction.DESC,"id"));
-        return postRepository.findAll(pageable).stream()
+//        return postRepository.findAll(pageable).stream()
+//                .map(PostResponse::new)
+//                .collect(Collectors.toList());
+        return postRepository.getList(postSearch).stream()
                 .map(PostResponse::new)
                 .collect(Collectors.toList());
     }

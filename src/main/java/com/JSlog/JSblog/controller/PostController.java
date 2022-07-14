@@ -2,6 +2,7 @@ package com.JSlog.JSblog.controller;
 
 import com.JSlog.JSblog.domain.Post;
 import com.JSlog.JSblog.request.PostCreate;
+import com.JSlog.JSblog.request.PostSearch;
 import com.JSlog.JSblog.response.PostResponse;
 import com.JSlog.JSblog.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -44,9 +45,14 @@ public class PostController {
         return response;
     }
 
+//    @GetMapping("/posts")
+//    public List<PostResponse> getList(@PageableDefault(size = 5) Pageable pageable){
+//        return postService.getList(pageable);
+//    }
+
     @GetMapping("/posts")
-    public List<PostResponse> getList(@PageableDefault(size = 5) Pageable pageable){
-        return postService.getList(pageable);
+    public List<PostResponse> getList(PostSearch postSearch){
+        return postService.getList(postSearch);
     }
 
 }

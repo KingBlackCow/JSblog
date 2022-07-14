@@ -3,6 +3,7 @@ package com.JSlog.JSblog.service;
 import com.JSlog.JSblog.domain.Post;
 import com.JSlog.JSblog.repository.PostRepository;
 import com.JSlog.JSblog.request.PostCreate;
+import com.JSlog.JSblog.request.PostSearch;
 import com.JSlog.JSblog.response.PostResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -73,22 +74,26 @@ class PostServiceTest {
     @DisplayName("글 1페이지 조회")
     void test3(){
 
-        List<Post> requestPosts = IntStream.range(1,31)
+        List<Post> requestPosts = IntStream.range(0, 20)
                         .mapToObj(i ->{
                             return Post.builder()
-                                    .title("호돌맨 제목 " + i)
-                                    .content("반포자이 " + i)
+                                    .title("foo" + i)
+                                    .content("bar1 " + i)
                                     .build();
                         })
                         .collect(Collectors.toList());
         postRepository.saveAll(requestPosts);
 
-        Pageable pageable = PageRequest.of(0, 5, Sort.by(DESC,"id"));
-        List<PostResponse> posts = postService.getList(pageable);
+        //Pageable pageable = PageRequest.of(0, 5, Sort.by(DESC,"id"));
+        PostSearch postSearch = PostSearch.builder()
+                .page(1)
+                .build();
 
-        assertEquals(5L, posts.size());
-        assertEquals("호돌맨 제목 30", posts.get(0).getTitle());
-        assertEquals("호돌맨 제목 26", posts.get(4).getTitle());
+        List<PostResponse> posts = postService.getList(postSearch);
+
+        assertEquals(10L, posts.size());
+        assertEquals("foo19", posts.get(0).getTitle());
+//        assertEquals("호돌맨 제목 26", posts.get(4).getTitle());
     }
 
 }
