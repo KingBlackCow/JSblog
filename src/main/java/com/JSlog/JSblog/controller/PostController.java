@@ -2,6 +2,7 @@ package com.JSlog.JSblog.controller;
 
 import com.JSlog.JSblog.domain.Post;
 import com.JSlog.JSblog.request.PostCreate;
+import com.JSlog.JSblog.request.PostEdit;
 import com.JSlog.JSblog.request.PostSearch;
 import com.JSlog.JSblog.response.PostResponse;
 import com.JSlog.JSblog.service.PostService;
@@ -40,7 +41,7 @@ public class PostController {
     }
 
     @GetMapping("/posts/{postId}")
-    public PostResponse get(@PathVariable(name = "postId") Long Id){
+    public PostResponse get(@PathVariable(name = "postId") Long Id) {
         PostResponse response = postService.get(Id);
         return response;
     }
@@ -51,8 +52,13 @@ public class PostController {
 //    }
 
     @GetMapping("/posts")
-    public List<PostResponse> getList(PostSearch postSearch){
+    public List<PostResponse> getList(PostSearch postSearch) {
         return postService.getList(postSearch);
+    }
+
+    @PatchMapping("/posts/{postId}")
+    public void edit(@PathVariable Long postId, @RequestBody @Valid PostEdit request) {
+        postService.edit(postId, request);
     }
 
 }

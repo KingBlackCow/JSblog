@@ -3,6 +3,7 @@ package com.JSlog.JSblog.service;
 import com.JSlog.JSblog.domain.Post;
 import com.JSlog.JSblog.repository.PostRepository;
 import com.JSlog.JSblog.request.PostCreate;
+import com.JSlog.JSblog.request.PostEdit;
 import com.JSlog.JSblog.request.PostSearch;
 import com.JSlog.JSblog.response.PostResponse;
 import org.junit.jupiter.api.BeforeEach;
@@ -94,6 +95,54 @@ class PostServiceTest {
         assertEquals(10L, posts.size());
         assertEquals("foo19", posts.get(0).getTitle());
 //        assertEquals("호돌맨 제목 26", posts.get(4).getTitle());
+    }
+
+    @Test
+    @DisplayName("글 제목 수정")
+    void test4(){
+
+        Post post = Post.builder()
+                .title("이조순제목")
+                .content("이조순내용")
+                .build();
+
+        postRepository.save(post);
+
+        PostEdit postEdit =PostEdit.builder()
+                .title("제목")
+                .build();
+
+        postService.edit(post.getId(), postEdit);
+
+        Post changedPost = postRepository.findById(post.getId())
+                .orElseThrow(() -> new RuntimeException("글이 존재하지 않습니다. id=" + post.getId()));
+
+        assertEquals("제목", changedPost.getTitle());
+    }
+
+    @Test
+    @DisplayName("글 제목 수정")
+    void test5(){
+
+        Post post = Post.builder()
+                .title("이조순제목")
+                .content("이조순내용")
+                .build();
+
+        postRepository.save(post);
+
+        PostEdit postEdit =PostEdit.builder()
+                .title("제목")
+                .content("내용")
+                .build();
+
+        postService.edit(post.getId(), postEdit);
+
+        Post changedPost = postRepository.findById(post.getId())
+                .orElseThrow(() -> new RuntimeException("글이 존재하지 않습니다. id=" + post.getId()));
+
+        assertEquals("제목", changedPost.getTitle());
+        assertEquals("내용", changedPost.getContent());
     }
 
 }

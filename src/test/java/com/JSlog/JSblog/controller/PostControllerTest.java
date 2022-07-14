@@ -3,6 +3,7 @@ package com.JSlog.JSblog.controller;
 import com.JSlog.JSblog.domain.Post;
 import com.JSlog.JSblog.repository.PostRepository;
 import com.JSlog.JSblog.request.PostCreate;
+import com.JSlog.JSblog.request.PostEdit;
 import com.JSlog.JSblog.response.PostResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
@@ -43,13 +44,13 @@ class PostControllerTest {
     private PostRepository postRepository;
 
     @BeforeEach
-    void clean(){
+    void clean() {
         postRepository.deleteAll();
     }
 
     @Test
     @DisplayName("/posts 요청 시 Hello World를 출력한다.")
-    void test() throws Exception{
+    void test() throws Exception {
         PostCreate request = PostCreate.builder()
                 .title("제목입니다.")
                 .content("내용입니다.")
@@ -67,7 +68,7 @@ class PostControllerTest {
 
     @Test
     @DisplayName("/posts 요청 시 title값은 필수다.")
-    void test2() throws Exception{
+    void test2() throws Exception {
         PostCreate request = PostCreate.builder()
                 .content("내용입니다.")
                 .build();
@@ -86,7 +87,7 @@ class PostControllerTest {
 
     @Test
     @DisplayName("/posts 요청 시 db에 값이 저장된다.")
-    void test3() throws Exception{
+    void test3() throws Exception {
         PostCreate request = PostCreate.builder()
                 .title("제목입니다.")
                 .content("내용입니다.")
@@ -107,7 +108,7 @@ class PostControllerTest {
 
     @Test
     @DisplayName("글 1개 조회")
-    void test4() throws Exception{
+    void test4() throws Exception {
         Post post = Post.builder()
                 .title("123456789012345")
                 .content("bar")
@@ -151,8 +152,8 @@ class PostControllerTest {
     @Test
     @DisplayName("글 여러개 조회")
     void test5() throws Exception {
-        List<Post> requestPosts = IntStream.range(0,10)
-                .mapToObj(i ->{
+        List<Post> requestPosts = IntStream.range(0, 10)
+                .mapToObj(i -> {
                     return Post.builder()
                             .title("foo " + i)
                             .content("bar " + i)
@@ -173,8 +174,8 @@ class PostControllerTest {
     @Test
     @DisplayName("페이지를 0으로 요청하면 첫 페이지를 가져온다.")
     void test6() throws Exception {
-        List<Post> requestPosts = IntStream.range(0,10)
-                .mapToObj(i ->{
+        List<Post> requestPosts = IntStream.range(0, 10)
+                .mapToObj(i -> {
                     return Post.builder()
                             .title("foo " + i)
                             .content("bar " + i)
@@ -189,6 +190,28 @@ class PostControllerTest {
                 .andExpect(jsonPath("$.length()", Matchers.is(10)))
                 .andExpect(jsonPath("$[0].title").value("foo 9"))
                 .andExpect(jsonPath("$[0].content").value("bar 9"))
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("글 제목 수정")
+    void test7() throws Exception {
+        Post post = Post.builder()
+                .title("이조순제목")
+                .content("이조순내용")
+                .build();
+
+        postRepository.save(post);
+
+        PostEdit postEdit = PostEdit.builder()
+                .title("제목")
+                .content("내용")
+                .build();
+
+        mockMvc.perform(patch("/posts/{postId}", post.getId())
+                        .contentType(APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(postEdit)))
+                .andExpect(status().isOk())
                 .andDo(print());
     }
 
