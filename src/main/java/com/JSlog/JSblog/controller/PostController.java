@@ -1,6 +1,7 @@
 package com.JSlog.JSblog.controller;
 
 import com.JSlog.JSblog.domain.Post;
+import com.JSlog.JSblog.exception.InvalidRequest;
 import com.JSlog.JSblog.request.PostCreate;
 import com.JSlog.JSblog.request.PostEdit;
 import com.JSlog.JSblog.request.PostSearch;
@@ -37,6 +38,7 @@ public class PostController {
 
     @PostMapping("/posts")
     public void post(@RequestBody @Valid PostCreate request) {
+        request.validate();
         postService.write(request);
     }
 
