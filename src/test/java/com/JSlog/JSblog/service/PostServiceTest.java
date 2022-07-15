@@ -1,6 +1,7 @@
 package com.JSlog.JSblog.service;
 
 import com.JSlog.JSblog.domain.Post;
+import com.JSlog.JSblog.exception.PostNotFound;
 import com.JSlog.JSblog.repository.PostRepository;
 import com.JSlog.JSblog.request.PostCreate;
 import com.JSlog.JSblog.request.PostEdit;
@@ -115,7 +116,7 @@ class PostServiceTest {
         postService.edit(post.getId(), postEdit);
 
         Post changedPost = postRepository.findById(post.getId())
-                .orElseThrow(() -> new RuntimeException("글이 존재하지 않습니다. id=" + post.getId()));
+                .orElseThrow(PostNotFound::new);
 
         assertEquals("제목", changedPost.getTitle());
     }
@@ -139,7 +140,7 @@ class PostServiceTest {
         postService.edit(post.getId(), postEdit);
 
         Post changedPost = postRepository.findById(post.getId())
-                .orElseThrow(() -> new RuntimeException("글이 존재하지 않습니다. id=" + post.getId()));
+                .orElseThrow(PostNotFound::new);
 
         assertEquals("제목", changedPost.getTitle());
         assertEquals("내용", changedPost.getContent());
@@ -156,6 +157,22 @@ class PostServiceTest {
         postRepository.save(post);
         postService.delete(post.getId());
         assertEquals(0, postRepository.count());
+
+    }
+
+    @Test
+    @DisplayName("글 1개 조회")
+    void test7(){
+        Post post = Post.builder()
+                .title("foo")
+                .content("bar")
+                .build();
+
+        postRepository.save(post);
+
+         assertThrows(PostNotFound.class, () ->{
+            postService.get(post.getId() + 1L);
+        });
 
     }
 

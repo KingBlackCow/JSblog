@@ -2,6 +2,7 @@ package com.JSlog.JSblog.service;
 
 import com.JSlog.JSblog.domain.Post;
 import com.JSlog.JSblog.domain.PostEditor;
+import com.JSlog.JSblog.exception.PostNotFound;
 import com.JSlog.JSblog.repository.PostRepository;
 import com.JSlog.JSblog.request.PostCreate;
 import com.JSlog.JSblog.request.PostEdit;
@@ -35,7 +36,7 @@ public class PostService {
 
     public PostResponse get(Long id) {
         Post post = postRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 글입니다."));
+                .orElseThrow(PostNotFound::new);
 
         PostResponse response = PostResponse.builder()
                 .id(post.getId())
