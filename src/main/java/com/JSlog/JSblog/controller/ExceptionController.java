@@ -28,6 +28,7 @@ public class ExceptionController {
         ErrorResponse response = ErrorResponse.builder()
                 .code("400")
                 .message("잘못된 요청입니다.")
+                .validation(new HashMap<>())
                 .build();
         for (FieldError fieldError : e.getFieldErrors()) {
             response.addValidation(fieldError.getField(), fieldError.getDefaultMessage());
