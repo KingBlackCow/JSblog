@@ -64,20 +64,21 @@ public class PostService {
         //postRepository.save(post);
         PostEditor.PostEditorBuilder editorBuilder = post.toEditor();
 
-//        if(postEdit.getTitle() != null){
-//            editorBuilder.title(postEdit.getTitle());
-//        }
-//
-//        if(postEdit.getContent() != null){
-//            editorBuilder.content(postEdit.getContent());
-//        }
+        if(postEdit.getTitle() != null){
+            editorBuilder.title(postEdit.getTitle());
+        }
 
-        PostEditor postEditor = editorBuilder.title(postEdit.getTitle())
-                .content(postEdit.getContent())
-                .build();
+        if(postEdit.getContent() != null){
+            editorBuilder.content(postEdit.getContent());
+        }
 
-        post.edit(postEditor);  //1번방법
-        //post.edit(editorBuilder.build()); //2번방법
+//        PostEditor postEditor = editorBuilder
+//                .title(postEdit.getTitle())
+//                .content(postEdit.getContent())
+//                .build();
+
+        //post.edit(postEditor);  //1번방법
+        post.edit(editorBuilder.build()); //2번방법
     }
 
     public void delete(Long id) {

@@ -11,6 +11,10 @@ spring:
         one-indexed-parameters: true
         default-page-size: 5 #페이지 사이즈 Default지정
 
+  jpa:
+    hibernate:
+      ddl-auto: update
+
   datasource:
     url: jdbc:h2:mem:hodolog
     username: sa

@@ -32,12 +32,12 @@ public class Post {
 
     public PostEditor.PostEditorBuilder toEditor(){
         return PostEditor.builder()
-                .title(title)
-                .content(content);
+                .title(this.title)
+                .content(this.content);
     }
 
     public void edit(PostEditor postEditor) {
-        title = postEditor.getTitle();
-        content = postEditor.getContent();
+        this.title = postEditor.getTitle();
+        this.content = postEditor.getContent();
     }
 }
