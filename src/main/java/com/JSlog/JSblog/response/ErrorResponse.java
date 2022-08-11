@@ -3,9 +3,6 @@ package com.JSlog.JSblog.response;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-
-import java.util.HashMap;
 import java.util.Map;
 
 @Getter
@@ -14,7 +11,7 @@ public class ErrorResponse {
 
     private final String code;
     private final String message;
-    private Map<String, String> validation = new HashMap<>();
+    private Map<String, String> validation;
 
     @Builder
     public ErrorResponse(String code, String message, Map<String, String> validation) {
