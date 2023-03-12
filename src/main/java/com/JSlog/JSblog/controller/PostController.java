@@ -1,5 +1,6 @@
 package com.JSlog.JSblog.controller;
 
+import com.JSlog.JSblog.config.data.UserSession;
 import com.JSlog.JSblog.request.PostCreate;
 import com.JSlog.JSblog.request.PostEdit;
 import com.JSlog.JSblog.request.PostSearch;
@@ -9,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -32,9 +34,27 @@ public class PostController {
         return "hello";
     }
 
+    // HandlerInterceptor
     @GetMapping("/foo")
-    public String foo() {
+    public String foo(@RequestAttribute("userName") String userName) {
+        log.info(">>>{}", userName);
+
         return "foo";
+    }
+
+    // HandlerMethodArgumentResolver
+    @GetMapping("/foo2")
+    public String foo2(UserSession userSession) {
+        log.info(">>>{}", userSession.name);
+
+        return userSession.name;
+    }
+
+    // HandlerMethodArgumentResolver
+    @GetMapping("/bar")
+    public String bar() {
+        System.out.println("UserSession이 AuthResolver(HandelerArgumentResolver)에 없으므로");
+        return "인증이 필요없는 페이지";
     }
 
     @PostMapping("/posts")
