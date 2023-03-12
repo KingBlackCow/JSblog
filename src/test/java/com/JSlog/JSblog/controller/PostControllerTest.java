@@ -81,7 +81,7 @@ class PostControllerTest {
     }
 
     @Test
-    @DisplayName("/posts 요청 시 db에 값이 저장된다.")
+    @DisplayName("글 작성 시 db에 값이 저장된다.")
     void test3() throws Exception {
         PostCreate request = PostCreate.builder()
                 .title("제목입니다.")
