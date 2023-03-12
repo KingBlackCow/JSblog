@@ -44,10 +44,10 @@ public class PostController {
 
     // HandlerMethodArgumentResolver
     @GetMapping("/foo2")
-    public String foo2(UserSession userSession) {
-        log.info(">>>{}", userSession.name);
+    public Long foo2(UserSession userSession) {
+        log.info(">>>{}", userSession.id);
 
-        return userSession.name;
+        return userSession.id;
     }
 
     // HandlerMethodArgumentResolver
