@@ -4,27 +4,22 @@ import com.JSlog.JSblog.domain.Post;
 import com.JSlog.JSblog.repository.PostRepository;
 import com.JSlog.JSblog.request.PostCreate;
 import com.JSlog.JSblog.request.PostEdit;
-import com.JSlog.JSblog.response.PostResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.http.MediaType.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -125,29 +120,6 @@ class PostControllerTest {
                 .andExpect(jsonPath("$.content").value("bar"))
                 .andDo(print());
     }
-
-//    @Test
-//    @DisplayName("글 여러개 조회")
-//    void test5() throws Exception {
-//        List<Post> requestPosts = IntStream.range(1,31)
-//                .mapToObj(i ->{
-//                    return Post.builder()
-//                            .title("호돌맨 제목 " + i)
-//                            .content("반포자이 " + i)
-//                            .build();
-//                })
-//                .collect(Collectors.toList());
-//        postRepository.saveAll(requestPosts);
-//
-//        mockMvc.perform(get("/posts?page=1&sort=id,desc")
-//                        .contentType(APPLICATION_JSON))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.length()", Matchers.is(5)))
-//                .andExpect(jsonPath("$[0].id").value(30))
-//                .andExpect(jsonPath("$[0].title").value("호돌맨 제목 30"))
-//                .andExpect(jsonPath("$[0].content").value("반포자이 30"))
-//                .andDo(print());
-//    }
 
     @Test
     @DisplayName("글 여러개 조회")
