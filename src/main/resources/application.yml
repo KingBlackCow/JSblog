@@ -4,21 +4,19 @@ spring:
       enabled: true
       path: /h2-console
 
-  #페이지 1부터 처리하기 위함 ex) page=1 size=5  -> 0,1,2,3,4
-  data:
-    web:
-      pageable:
-        one-indexed-parameters: true
-        default-page-size: 5 #페이지 사이즈 Default지정
-
-  jpa:
-    hibernate:
-      format_sql: true
-      ddl-auto: update
-      show_sql: true
-
   datasource:
-    url: jdbc:h2:~/jslog
+    url: jdbc:h2:mem:jslog;NON_KEYWORDS=USER
     username: sa
     password:
     driver-class-name: org.h2.Driver
+  jpa:
+    defer-datasource-initialization: true
+  data:
+    web:
+      pageable:
+        max-page-size: 2000
+        default-page-size: 20
+        one-indexed-parameters: true
+
+jsblog:
+  jwt-key: "rTPmA9Sgk+Q1XwuJbG7E6xFFUhQpdi+al5iyPnRTK/Q="

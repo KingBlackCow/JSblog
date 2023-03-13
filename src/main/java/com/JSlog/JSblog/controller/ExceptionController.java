@@ -41,7 +41,7 @@ public class ExceptionController {
     @ExceptionHandler(JslogException.class)
     @ResponseBody
     public ResponseEntity<ErrorResponse> postsNotFound(JslogException e) {
-        int statusCode = e.statusCode();
+        int statusCode = e.getStatusCode();
         ErrorResponse body = ErrorResponse.builder()
                 .code(String.valueOf(statusCode))
                 .message(e.getMessage())

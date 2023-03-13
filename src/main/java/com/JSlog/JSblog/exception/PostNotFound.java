@@ -14,7 +14,7 @@ public class PostNotFound extends JslogException{
 
 
     @Override
-    public int statusCode() {
+    public int getStatusCode() {
         return 404;
     }
 }

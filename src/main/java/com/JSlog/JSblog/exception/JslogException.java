@@ -18,7 +18,7 @@ public abstract class JslogException extends RuntimeException {
         super(message, cause);
     }
 
-    public abstract int statusCode();
+    public abstract int getStatusCode();
 
     public void addValidation(String fieldName, String message){
         validation.put(fieldName, message);

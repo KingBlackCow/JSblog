@@ -1,0 +1,1 @@
+insert into `user` (name, email, password, created_at) values ('이조순', 'sgs1159@naver.com', 1234, '2023-03-14 00:00:00')
