@@ -1,5 +1,6 @@
 package com.JSlog.JSblog.service;
 
+import com.JSlog.JSblog.domain.Session;
 import com.JSlog.JSblog.domain.User;
 import com.JSlog.JSblog.exception.AlreadyExistsEmailException;
 import com.JSlog.JSblog.exception.InvalidSigninInformation;
@@ -22,7 +23,8 @@ public class AuthService {
     public Long signin(Login login) {
         User user = userRepository.findByEmail(login.getEmail())
                 .orElseThrow(InvalidSigninInformation::new);
-
+//        Session session = user.addSession();
+//        return session.getAccessToken();
         return user.getId();
     }
 
