@@ -37,7 +37,7 @@ public class PostController {
     // HandlerInterceptor
     @GetMapping("/foo")
     public String foo(@RequestAttribute("userName") String userName) {
-        log.info(">>>{}", userName);
+        log.info("foo>>>{}", userName);
 
         return "foo";
     }
@@ -45,7 +45,7 @@ public class PostController {
     // HandlerMethodArgumentResolver
     @GetMapping("/foo2")
     public Long foo2(UserSession userSession) {
-        log.info(">>>{}", userSession.id);
+        log.info("foo2>>>{}", userSession.id);
 
         return userSession.id;
     }

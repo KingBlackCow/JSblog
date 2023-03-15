@@ -20,15 +20,22 @@ public class AuthService {
     private final UserRepository userRepository;
 
     @Transactional
-    public Long signin(Login login) {
+    public Long signIn(Login login) {
         User user = userRepository.findByEmail(login.getEmail())
                 .orElseThrow(InvalidSigninInformation::new);
-//        Session session = user.addSession();
-//        return session.getAccessToken();
+
         return user.getId();
     }
 
-    public void signup(Signup signup) {
+    @Transactional
+    public String signInToken(Login login) {
+        User user = userRepository.findByEmail(login.getEmail())
+                .orElseThrow(InvalidSigninInformation::new);
+        Session session = user.addSession();
+        return session.getAccessToken();
+    }
+
+    public void signUp(Signup signup) {
         Optional<User> userOptional = userRepository.findByEmail(signup.getEmail());
         if (userOptional.isPresent()) {
             throw new AlreadyExistsEmailException();

@@ -12,6 +12,8 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 @Slf4j
@@ -30,10 +32,26 @@ public class AuthResolver implements HandlerMethodArgumentResolver {
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         log.info(">>>{}", appConfig.toString());
 
-        String accessToken = webRequest.getHeader("Authorization");
-        if (accessToken == null || accessToken.equals("")) {
+        // Authorization
+//        String accessToken = webRequest.getHeader("Authorization");
+//        if (accessToken == null || accessToken.equals("")) {
+//            throw new UnAuthorized();
+//        }
+
+        // Cookie
+        HttpServletRequest servletRequest = webRequest.getNativeRequest(HttpServletRequest.class);
+        if (servletRequest == null) {
+            log.error("serveletRequest is null");
             throw new UnAuthorized();
         }
+
+        Cookie[] cookies = servletRequest.getCookies();
+        if (cookies.length == 0) {
+            log.error("쿠키가 없음");
+            throw new UnAuthorized();
+        }
+
+        String accessToken = cookies[0].getValue();
 
         Session sessionOption = sessionRepository.findByAccessToken(accessToken)
                 .orElseThrow(UnAuthorized::new);
