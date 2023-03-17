@@ -35,8 +35,6 @@ public class AuthResolver implements HandlerMethodArgumentResolver {
 
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-        log.info(">>>{}", appConfig.toString());
-
         // Authorization
         String jws = webRequest.getHeader("Authorization");
         if (jws == null || jws.equals("")) {
@@ -47,7 +45,7 @@ public class AuthResolver implements HandlerMethodArgumentResolver {
             Jws<Claims> claims = Jwts.parserBuilder()
                     .setSigningKey(appConfig.getJwtKey())
                     .build()
-                    .parseClaimsJws(jws);
+                    .parseClaimsJws(jws.split(" ")[1]);
             String userId = claims.getBody().getSubject();
             return new UserSession(Long.parseLong(userId));
         } catch (JwtException e) {
