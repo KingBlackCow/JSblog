@@ -5,6 +5,7 @@ import com.JSlog.JSblog.domain.User;
 import com.JSlog.JSblog.repository.SessionRepository;
 import com.JSlog.JSblog.repository.UserRepository;
 import com.JSlog.JSblog.request.Login;
+import com.JSlog.JSblog.request.Signup;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -38,6 +39,24 @@ class AuthControllerTest {
     @BeforeEach
     void clean() {
         userRepository.deleteAll();
+    }
+
+    @Test
+    @DisplayName("회원가입")
+    void test6() throws Exception {
+        // given
+        Signup signup = Signup.builder()
+                .email("sgs1159@gmail.com")
+                .password("1234")
+                .name("이조순")
+                .build();
+
+        // expected
+        mockMvc.perform(post("/auth/signup")
+                        .content(objectMapper.writeValueAsString(signup))
+                        .contentType(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print());
     }
 
     @Test

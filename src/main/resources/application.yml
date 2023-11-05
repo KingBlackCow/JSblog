@@ -11,6 +11,8 @@ spring:
     driver-class-name: org.h2.Driver
   jpa:
     defer-datasource-initialization: true
+#  sql:
+#    init.mode: never
   data:
     web:
       pageable:

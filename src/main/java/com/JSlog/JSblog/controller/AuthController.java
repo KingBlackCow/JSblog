@@ -62,6 +62,6 @@ public class AuthController {
 
     @PostMapping("/auth/signup")
     public void signup(@RequestBody Signup signup) {
-        authService.signUp(signup);
+        authService.signup(signup);
     }
 }

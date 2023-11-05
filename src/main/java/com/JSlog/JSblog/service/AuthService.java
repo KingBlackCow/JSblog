@@ -35,7 +35,7 @@ public class AuthService {
         return session.getAccessToken();
     }
 
-    public void signUp(Signup signup) {
+    public void signup(Signup signup) {
         Optional<User> userOptional = userRepository.findByEmail(signup.getEmail());
         if (userOptional.isPresent()) {
             throw new AlreadyExistsEmailException();
