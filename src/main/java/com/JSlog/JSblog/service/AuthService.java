@@ -1,5 +1,6 @@
 package com.JSlog.JSblog.service;
 
+import com.JSlog.JSblog.crypto.PasswordEncoder;
 import com.JSlog.JSblog.domain.Session;
 import com.JSlog.JSblog.domain.User;
 import com.JSlog.JSblog.exception.AlreadyExistsEmailException;
@@ -41,9 +42,12 @@ public class AuthService {
             throw new AlreadyExistsEmailException();
         }
 
+        PasswordEncoder encoder = new PasswordEncoder();
+        String encryptedPassword = encoder.encrpyt(signup.getPassword());
+
         var user = User.builder()
                 .email(signup.getEmail())
-                .password("1234")
+                .password(encryptedPassword)
                 .name(signup.getName())
                 .build();
         userRepository.save(user);
