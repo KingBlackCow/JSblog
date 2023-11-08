@@ -1,7 +1,9 @@
 package com.JSlog.JSblog.crypto;
 
 import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
+import org.springframework.stereotype.Component;
 
+@Component
 public class PasswordEncoder {
 
     private static final SCryptPasswordEncoder encoder = new SCryptPasswordEncoder(

@@ -6,6 +6,7 @@ import com.JSlog.JSblog.repository.SessionRepository;
 import com.JSlog.JSblog.repository.UserRepository;
 import com.JSlog.JSblog.request.Login;
 import com.JSlog.JSblog.request.Signup;
+import com.JSlog.JSblog.service.AuthService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -32,6 +33,9 @@ class AuthControllerTest {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private AuthService authService;
 
     @Autowired
     private SessionRepository sessionRepository;
@@ -63,11 +67,12 @@ class AuthControllerTest {
     @DisplayName("로그인 성공")
     void test1() throws Exception {
         // given
-        userRepository.save(User.builder()
+        Signup signup = Signup.builder()
                 .name("이조순")
                 .email("sgs1159@gmail.com")
                 .password("1234")
-                .build());
+                .build();
+        authService.signup(signup);
 
         Login login = Login.builder()
                 .email("sgs1159@gmail.com")
@@ -78,7 +83,7 @@ class AuthControllerTest {
 
         mockMvc.perform(post("/auth/login")
                         .contentType(APPLICATION_JSON)
-                        .content(json))
+                        .content(json) )
                 .andExpect(status().isOk())
                 .andDo(print());
     }

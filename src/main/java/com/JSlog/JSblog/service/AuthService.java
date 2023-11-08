@@ -19,12 +19,14 @@ import java.util.Optional;
 public class AuthService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder encoder;
 
     @Transactional
     public Long signIn(Login login) {
         User user = userRepository.findByEmail(login.getEmail())
                 .orElseThrow(InvalidSigninInformation::new);
 
+        if (!encoder.matches(login.getPassword(), user.getPassword())) throw new InvalidSigninInformation();
         return user.getId();
     }
 
@@ -38,11 +40,8 @@ public class AuthService {
 
     public void signup(Signup signup) {
         Optional<User> userOptional = userRepository.findByEmail(signup.getEmail());
-        if (userOptional.isPresent()) {
-            throw new AlreadyExistsEmailException();
-        }
+        if (userOptional.isPresent()) throw new AlreadyExistsEmailException();
 
-        PasswordEncoder encoder = new PasswordEncoder();
         String encryptedPassword = encoder.encrpyt(signup.getPassword());
 
         var user = User.builder()
