@@ -1,18 +1,19 @@
 plugins {
-	id 'org.springframework.boot' version '2.7.1'
-	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
+	id 'org.springframework.boot' version '3.0.5'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id "org.asciidoctor.jvm.convert" version "3.3.2"
 }
 
 group = 'com.JSlog'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+sourceCompatibility = '17'
 
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
+
 	asciidoctorExt
 }
 
@@ -21,38 +22,46 @@ repositories {
 }
 
 ext {
-	asciidocVersion = "2.0.6.RELEASE"
 	snippetsDir = file('build/generated-snippets')
 }
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	compileOnly 'org.projectlombok:lombok'
-	runtimeOnly 'com.h2database:h2'
-	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
-
-	// 비밀번호 암호화 script
 	implementation 'org.springframework.security:spring-security-crypto'
+	implementation 'org.springframework.session:spring-session-jdbc'
+
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.security:spring-security-test'
+
 	implementation 'org.bouncycastle:bcprov-jdk15on:1.70'
 
-	//querydsl 설정
-	implementation 'com.querydsl:querydsl-core'
-	implementation 'com.querydsl:querydsl-jpa'
+	implementation 'com.querydsl:querydsl-core:5.0.0'
+	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+	annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"
+	annotationProcessor 'jakarta.persistence:jakarta.persistence-api'
+	annotationProcessor 'jakarta.annotation:jakarta.annotation-api'
 
-	// jwt 설정
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
 	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
 	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 
 	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
-	annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jpa" // querydsl JPAAnnotationProcessor 사용 지정
-	annotationProcessor("jakarta.persistence:jakarta.persistence-api")
-	annotationProcessor("jakarta.annotation:jakarta.annotation-api")
-	asciidoctorExt "org.springframework.restdocs:spring-restdocs-asciidoctor:${asciidocVersion}"
-	testImplementation "org.springframework.restdocs:spring-restdocs-mockmvc:${asciidocVersion}"
+
+	asciidoctorExt "org.springframework.restdocs:spring-restdocs-asciidoctor:3.0.0"
+	testImplementation "org.springframework.restdocs:spring-restdocs-mockmvc:3.0.0"
+
+	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	testCompileOnly "org.projectlombok:lombok"
+	testAnnotationProcessor "org.projectlombok:lombok"
+
+	runtimeOnly 'com.h2database:h2'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 tasks.named('test') {
@@ -69,15 +78,26 @@ asciidoctor {
 	dependsOn test
 }
 
+asciidoctor.doFirst {
+	delete file("src/main/resources/static/docs")
+}
+
 bootJar {
+	enabled = true
+
 	dependsOn asciidoctor
 
 	copy {
 		from asciidoctor.outputDir
 		into "src/main/resources/static/docs"
 	}
-
-//	from ("${asciidoctor.outputDir}") {
-//		into 'static/docs'
-//	}
 }
+
+jar {
+	enabled = false
+}
+
+
+
+
+
