@@ -19,6 +19,12 @@ spring:
         max-page-size: 2000
         default-page-size: 20
         one-indexed-parameters: true
-
+  session:
+    timeout: 86400
 jsblog:
   jwt-key: "rTPmA9Sgk+Q1XwuJbG7E6xFFUhQpdi+al5iyPnRTK/Q="
+server:
+  servlet:
+    session:
+      cookie:
+        max-age: 172800

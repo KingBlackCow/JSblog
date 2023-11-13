@@ -9,7 +9,13 @@
 #}
 
 
+
+### 로그인
 POST http://localhost:8080/auth/login
 Content-Type: application/x-www-form-urlencoded
 
-username=js&password=1234
+username=js&password=1234&remember=1
+
+
+### 메인 페이지
+GET http://localhost:8080
