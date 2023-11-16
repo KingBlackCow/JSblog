@@ -18,3 +18,9 @@ username=sgs1159@nate.com&password=1234&remember=1
 
 ### 메인 페이지
 GET http://localhost:8080
+
+### 유저 페이지
+GET http://localhost:8080/user
+
+### 어드민 페이지
+GET http://localhost:8080/admin
