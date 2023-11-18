@@ -59,7 +59,7 @@ public class PostService {
     @Transactional
     public void edit(Long id, PostEdit postEdit) {
         Post post = postRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 글입니다."));
+                .orElseThrow(() -> new PostNotFound());
         //post.change(postEdit.getTitle(), postEdit.getContent());
         //postRepository.save(post);
         PostEditor.PostEditorBuilder editorBuilder = post.toEditor();

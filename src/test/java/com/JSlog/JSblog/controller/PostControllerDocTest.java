@@ -1,5 +1,6 @@
 package com.JSlog.JSblog.controller;
 
+import com.JSlog.JSblog.config.JsMockUser;
 import com.JSlog.JSblog.domain.Post;
 import com.JSlog.JSblog.repository.PostRepository;
 import com.JSlog.JSblog.request.PostCreate;
@@ -80,6 +81,7 @@ public class PostControllerDocTest {
 
 
     @Test
+    @JsMockUser
     @DisplayName("글 등록")
     void test2() throws Exception{
 
