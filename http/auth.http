@@ -9,11 +9,20 @@ Content-Type: application/json
   "password": 1234
 }
 
-### 로그인
+### form 로그인
 POST http://localhost:8080/auth/login
 Content-Type: application/x-www-form-urlencoded
 
 username=sgs1159@nate.com&password=1234&remember=1
+
+### json 로그인
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+  "email": "sgs1159@nate.com",
+  "password": "1234"
+}
 
 
 ### 메인 페이지
