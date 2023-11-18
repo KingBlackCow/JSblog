@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -31,6 +32,7 @@ import static org.springframework.boot.autoconfigure.security.servlet.PathReques
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
+@EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
     private final ObjectMapper objectMapper;
     private final UserRepository userRepository;
@@ -48,8 +50,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                 .requestMatchers( "/auth/login").permitAll()
                 .requestMatchers("/auth/signup").permitAll()
-                .requestMatchers("/user").hasAnyRole("USER", "ADMIN")
-                .requestMatchers("/admin").hasRole("ADMIN") // ADMIN 역할이 있는지
+                //.requestMatchers("/user").hasAnyRole("USER", "ADMIN")
+                //.requestMatchers("/admin").hasRole("ADMIN") // ADMIN 역할이 있는지
 //                .access(new WebExpressionAuthorizationManager("hasRole('ADMIN') AND hasAuthority('WRITE')"))// 관리자 역할도 있고 쓰기 권한이 있는지
                 .anyRequest().authenticated()
                 .and()
