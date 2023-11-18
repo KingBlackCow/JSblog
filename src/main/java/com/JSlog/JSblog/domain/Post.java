@@ -45,4 +45,8 @@ public class Post {
         this.title = postEditor.getTitle();
         this.content = postEditor.getContent();
     }
+
+    public Long getUserId() {
+        return this.user.getId();
+    }
 }
