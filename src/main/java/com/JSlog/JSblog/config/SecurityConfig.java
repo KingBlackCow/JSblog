@@ -48,12 +48,13 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests()
-                .requestMatchers( "/auth/login").permitAll()
-                .requestMatchers("/auth/signup").permitAll()
-                //.requestMatchers("/user").hasAnyRole("USER", "ADMIN")
-                //.requestMatchers("/admin").hasRole("ADMIN") // ADMIN 역할이 있는지
+                .anyRequest().permitAll()
+//                .requestMatchers( "/auth/login").permitAll()
+//                .requestMatchers("/auth/signup").permitAll()
+//                .requestMatchers("/user").hasAnyRole("USER", "ADMIN")
+//                .requestMatchers("/admin").hasRole("ADMIN") // ADMIN 역할이 있는지
 //                .access(new WebExpressionAuthorizationManager("hasRole('ADMIN') AND hasAuthority('WRITE')"))// 관리자 역할도 있고 쓰기 권한이 있는지
-                .anyRequest().authenticated()
+//                .anyRequest().authenticated()
                 .and()
 //                .formLogin()
 //                .usernameParameter("username")
