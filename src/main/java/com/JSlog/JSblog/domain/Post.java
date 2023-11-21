@@ -1,6 +1,5 @@
 package com.JSlog.JSblog.domain;
 
-import com.JSlog.JSblog.request.PostEdit;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -35,15 +34,15 @@ public class Post {
         this.content = content;
     }
 
-    public PostEditor.PostEditorBuilder toEditor(){
-        return PostEditor.builder()
+    public PostUpdateDto.PostUpdateDtoBuilder toEditor(){
+        return PostUpdateDto.builder()
                 .title(this.title)
                 .content(this.content);
     }
 
-    public void edit(PostEditor postEditor) {
-        this.title = postEditor.getTitle();
-        this.content = postEditor.getContent();
+    public void edit(PostUpdateDto postUpdateDto) {
+        this.title = postUpdateDto.getTitle();
+        this.content = postUpdateDto.getContent();
     }
 
     public Long getUserId() {

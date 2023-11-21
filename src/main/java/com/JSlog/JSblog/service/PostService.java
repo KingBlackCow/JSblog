@@ -1,7 +1,7 @@
 package com.JSlog.JSblog.service;
 
 import com.JSlog.JSblog.domain.Post;
-import com.JSlog.JSblog.domain.PostEditor;
+import com.JSlog.JSblog.domain.PostUpdateDto;
 import com.JSlog.JSblog.exception.PostNotFound;
 import com.JSlog.JSblog.repository.PostRepository;
 import com.JSlog.JSblog.request.PostCreate;
@@ -10,9 +10,6 @@ import com.JSlog.JSblog.request.PostSearch;
 import com.JSlog.JSblog.response.PostResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -60,25 +57,18 @@ public class PostService {
     public void edit(Long id, PostEdit postEdit) {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new PostNotFound());
-        //post.change(postEdit.getTitle(), postEdit.getContent());
-        //postRepository.save(post);
-        PostEditor.PostEditorBuilder editorBuilder = post.toEditor();
+
+        PostUpdateDto.PostUpdateDtoBuilder postUpdateDtoBuilder = post.toEditor();
 
         if(postEdit.getTitle() != null){
-            editorBuilder.title(postEdit.getTitle());
+            postUpdateDtoBuilder.title(postEdit.getTitle());
         }
 
         if(postEdit.getContent() != null){
-            editorBuilder.content(postEdit.getContent());
+            postUpdateDtoBuilder.content(postEdit.getContent());
         }
 
-//        PostEditor postEditor = editorBuilder
-//                .title(postEdit.getTitle())
-//                .content(postEdit.getContent())
-//                .build();
-
-        //post.edit(postEditor);  //1번방법
-        post.edit(editorBuilder.build()); //2번방법
+        post.edit(postUpdateDtoBuilder.build()); //2번방법
     }
 
     public void delete(Long id) {
